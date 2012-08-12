@@ -31,4 +31,3 @@ Or install it yourself as:
 ## Copyright
 
 Copyright (c) 2012 theldoria. See LICENSE for further details.
-
