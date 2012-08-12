@@ -1,0 +1,29 @@
+*.gem
+*.rbc
+.bundle
+.config
+.yardoc
+Gemfile.lock
+InstalledFiles
+_yardoc
+coverage
+doc/
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
+
+# MSBuild
+Debug/
+Release/
+ipch/
+*.opensdf
+*.sdf
+*.suo
+*.dll
+
+# Lib
+LCDSDK_8.00.100/

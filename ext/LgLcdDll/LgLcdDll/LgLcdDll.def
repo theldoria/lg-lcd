@@ -1,0 +1,20 @@
+LIBRARY	LgLcddll
+
+EXPORTS
+lgLcdInit
+lgLcdDeInit
+lgLcdConnectW
+lgLcdConnectA
+lgLcdConnectExW
+lgLcdConnectExA
+lgLcdDisconnect
+lgLcdSetDeviceFamiliesToUse
+lgLcdEnumerate
+lgLcdEnumerateExW
+lgLcdEnumerateExA
+lgLcdOpen
+lgLcdOpenByType
+lgLcdClose
+lgLcdReadSoftButtons
+lgLcdUpdateBitmap
+lgLcdSetAsLCDForegroundApp
