@@ -1,5 +1,7 @@
 # LgLcd
 
+[![Gem Version](https://badge.fury.io/rb/lg-lcd.png)](http://badge.fury.io/rb/lg-lcd)
+
 Ruby binding to the 'Logitech LCD SDK Package'
 
 ## Installation
