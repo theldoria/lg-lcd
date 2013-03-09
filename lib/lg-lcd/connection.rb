@@ -1,9 +1,13 @@
 require 'ffi'
+require 'enumerator'
 require_relative 'lib'
 require_relative 'open'
+require_relative 'device'
 
 module LgLcd
    class Connection
+      include Enumerable
+
       def initialize name
          @ctx = Lib::ConnectionContext.new
          @ctx[:app_friendly_name] = string_pointer(name)
@@ -24,9 +28,19 @@ module LgLcd
          return @ctx[:connection]
       end
 
-      def open &block
-         return Open.new(connection, &block)
+      def open *args, &block
+         return Open.new(connection, *args, &block)
       end
+
+      def each
+         dd = Lib::DeviceDesc.new
+         index = 0
+         while 0 == Lib.enumerate(connection, index, dd)
+            yield(Device.new(self, index, dd))
+            index = index + 1
+         end
+      end
+      alias :each_device :each
 
       private
 
