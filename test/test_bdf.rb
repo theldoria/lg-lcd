@@ -22,14 +22,17 @@ LgLcd.connect("Ruby2") do |ctx|
     bbx = @bdf.bounding_box
     screen = @bdf.create_bounding_box_array(160, 43)
     keys = @bdf.chars.keys.reverse
+    ly = 0
     7.times do |row|
       x = 0
       y = bbx[:y] * row
       40.times do
-        keys = @bdf.chars.keys.reverse unless keys.length > 0
-        _, x, y = @bdf.print_char(screen, keys.pop, x, y)
+        _, x, ly = @bdf.print_char(screen, keys.pop, x, y) if keys.length > 0
       end
     end
+    x = 0
+    y = ly + bbx[:y]
+    @bdf.print(screen, "That's all! #{Time.now}", x, y)
 
     dd.open do |device|
       puts "Device: #{device.device}"
