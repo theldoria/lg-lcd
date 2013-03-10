@@ -156,7 +156,7 @@ module LgLcd
 
       class OpenContext < FFI::Struct
          layout connection: :int,
-         # Device type to open (either LGLCD_DEVICE_BW or LGLCD_DEVICE_QVGA)
+         # Index of device to open
          index: :int,
          on_softbuttons_changed: SoftbuttonsChangedContext,
          # --> Device handle
@@ -190,6 +190,7 @@ module LgLcd
       attach_function :connect, :lgLcdConnectExA, [:pointer], :long
       attach_function :disconnect, :lgLcdDisconnect, [:int], :long
 
+      attach_function :open, :lgLcdOpen, [:pointer], :long
       attach_function :open_by_type, :lgLcdOpenByType, [:pointer], :long
       attach_function :close, :lgLcdClose, [:int], :long
 
@@ -198,76 +199,5 @@ module LgLcd
 
       # Deprecated
       attach_function :enumerate, :lgLcdEnumerateExA, [:int, :int, :pointer], :long
-   end
-
-   class Open
-      def initialize connection
-         @ctx = Lib::OpenByTypeContext.new
-         @ctx[:connection] = connection
-         @ctx[:device_type] = Lib::LGLCD_DEVICE_BW
-         @ctx[:device] = Lib::LGLCD_INVALID_DEVICE
-         raise "Open by type failes" unless Lib::LGLCD_RET_OK == Lib.open_by_type(@ctx)
-
-         begin
-            yield(self)
-         ensure
-            puts "Close"
-            Lib.close(@ctx[:device])
-         end
-      end
-
-      def device
-         return @ctx[:device]
-      end
-   end
-
-   class Connection
-      def initialize name
-         @ctx = Lib::ConnectionContext.new
-         @ctx[:app_friendly_name] = string_pointer(name)
-         @ctx[:is_persistent] = false
-         @ctx[:is_autostartable] = false
-         @ctx[:connection] = Lib::LGLCD_INVALID_CONNECTION
-
-         raise "Connecting failed" unless Lib::LGLCD_RET_OK == Lib.connect(@ctx)
-
-         begin
-            yield(self)
-         ensure
-            Lib.disconnect(connection)
-         end
-      end
-
-      def connection
-         return @ctx[:connection]
-      end
-
-      def open &block
-         return Open.new(connection, &block)
-      end
-
-      private
-
-      def string_pointer string
-         mem_buf = FFI::MemoryPointer.new(:char, string.size)
-         mem_buf.put_bytes(0, string)
-         return mem_buf
-      end
-   end
-
-   class LgLcd
-      def initialize
-         raise "Initialization failed" unless Lib::LGLCD_RET_OK == Lib.init()
-
-         begin
-            yield(self)
-         ensure
-            Lib.deinit()
-         end
-      end
-
-      def connect name, &block
-         return Connection.new(name, &block)
-      end
    end
 end
