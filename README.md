@@ -20,6 +20,12 @@ Or install it yourself as:
 
 ## Usage
 
+## Requirements
+
+You need an installed Logitech Gaming-Software with version 8.40 (or higher).
+
+In order to emulate a lcd display you can Control-Shift-Right-click on the tray icon.
+
 
 
 ## Contributing
@@ -32,4 +38,4 @@ Or install it yourself as:
 
 ## Copyright
 
-Copyright (c) 2012 theldoria. See LICENSE for further details.
+Copyright (c) 2012-2013 theldoria. See LICENSE for further details.
